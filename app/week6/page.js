@@ -1,35 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import eventsData from "./events.json";
-import NewEvent from "./new-event";
-import EventList from "./event-list";
+import itemsData from "./items.json";
+import NewItem from "./NewItem";
+import ItemList from "./ItemList";
 
 export default function Page() {
-  // read events from events.json and convert date strings to Date objects
-  const [events, setEvents] = useState(
-    eventsData.map((event) => ({
-      ...event,
-      date: new Date(event.date),
-    }))
-  );
+  const [items, setItems] = useState(itemsData);
 
-  const [newEventOpen, setNewEventOpen] = useState(false);
-
-  const handleCreateEvent = (event) => {
-    setEvents([...events, event]);
-  };
-
-  const handleCloseNewEvent = () => {
-    setNewEventOpen(false);
+  const handleAddItem = (newItem) => {
+    setItems([...items, newItem]);
   };
 
   return (
     <main>
       <h1 className="text-4xl font-bold m-6 text-center text-yellow-300">
-        Community Events
+        Shopping List
       </h1>
       <div className="fixed right-16 bottom-16">
+        {/* Button to open the form for adding new items */}
         <button
           className="bg-yellow-500 hover:bg-yellow-300 text-blue-900 font-bold py-2 px-2 rounded-full w-20 h-20 flex items-center justify-center"
           onClick={() => setNewEventOpen(true)}
@@ -52,12 +41,10 @@ export default function Page() {
       </div>
 
       {newEventOpen && (
-        <NewEvent
-          onCreateEvent={handleCreateEvent}
-          onCloseNewEvent={handleCloseNewEvent}
-        />
+        <NewItem onAddItem={handleAddItem} onCloseNewItem={handleCloseNewItem} />
       )}
-      <EventList events={events} />
+      {}
+      <ItemList items={items} />
     </main>
   );
 }
